@@ -28,8 +28,6 @@ def counter(dishes):
             list_dish.append(dish)
     return dic_dish
 
-
-
 def get_shop_list_by_dishes(dishes, person_count):
     shop_list = {}
     for dish in dishes:
@@ -39,10 +37,13 @@ def get_shop_list_by_dishes(dishes, person_count):
                     ingredient = list(ingredient.values())
                     measure = ingredient[2]
                     dic_dish = counter(dishes)
+                    quantity_ingredient = 1
+                    if ingredient[0] in shop_list:
+                        quantity_ingredient += 1
                     quantity_dish = dic_dish[dish]
-                    total_quantity = int(ingredient[1]) * person_count * quantity_dish
+                    total_quantity = int(ingredient[1]) * person_count * quantity_dish * quantity_ingredient
                     shop_list[ingredient[0]] = {'measure': measure, 'quantity': total_quantity}
-    return print(shop_list)
+    return pprint(shop_list)
 
-order = ['Омлет', 'Омлет', 'Омлет', 'Омлет']
-get_shop_list_by_dishes(order, 1)
+order = ['Омлет', 'Фахитос']
+get_shop_list_by_dishes(order, 2)
