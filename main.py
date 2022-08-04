@@ -15,18 +15,7 @@ with open('recipes.txt', encoding='utf-8') as recipe_text:
             ing_list.append(ing_dic.copy())
         cook_book[dish_name] = ing_list
         recipe_text.readline()
-    # pprint(cook_book)
-
-def counter(dishes):
-    list_dish = []
-    dic_dish = {}
-    for dish in dishes:
-        if dish in list_dish:
-            dic_dish[dish] += 1
-        else:
-            dic_dish[dish] = 1
-            list_dish.append(dish)
-    return dic_dish
+# pprint(cook_book)
 
 def get_shop_list_by_dishes(dishes, person_count):
     shop_list = {}
@@ -34,16 +23,14 @@ def get_shop_list_by_dishes(dishes, person_count):
         for dish_in_book, ingredients in cook_book.items():
             if dish == dish_in_book:
                 for ingredient in ingredients:
-                    ingredient = list(ingredient.values())
+                    ingredient = list(ingredient.values()) # переводим словарь ingredient в список вида [Название ингредиента, Количество, Единица измерения]
                     measure = ingredient[2]
-                    dic_dish = counter(dishes)
-                    quantity_ingredient = 1
                     if ingredient[0] in shop_list:
-                        quantity_ingredient += 1
-                    quantity_dish = dic_dish[dish]
-                    total_quantity = int(ingredient[1]) * person_count * quantity_dish * quantity_ingredient
+                        total_quantity = shop_list[ingredient[0]]['quantity'] + int(ingredient[1]) * person_count
+                    else:
+                        total_quantity = int(ingredient[1]) * person_count
                     shop_list[ingredient[0]] = {'measure': measure, 'quantity': total_quantity}
     return pprint(shop_list)
 
-order = ['Омлет', 'Фахитос']
+order = ['Омлет', 'Омлет', 'Фахитос']
 get_shop_list_by_dishes(order, 2)
